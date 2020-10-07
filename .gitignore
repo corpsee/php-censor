@@ -1,6 +1,9 @@
 /composer.phar
 
 /vendor
+/public/assets/vendor
+/node_modules
+
 /.php_cs.cache
 /.phpunit.result.cache
 

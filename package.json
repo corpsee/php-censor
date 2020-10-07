@@ -1,0 +1,27 @@
+{
+  "name": "php-censor",
+  "version": "0.0.0",
+  "description": "PHP Censor CI Server",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/php-censor/php-censor.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/php-censor/php-censor/issues"
+  },
+  "homepage": "https://github.com/php-censor/php-censor#readme",
+  "devDependencies": {
+    "webpack": "^4.44.2"
+  }
+}
