@@ -8,6 +8,7 @@ use PHPCensor\Builder;
 use PHPCensor\Config;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Option\PhpUnitOptions;
 use PHPCensor\Plugin\Util\PhpUnitResultJson;
@@ -206,7 +207,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
 
         if ($options->getOption('coverage')) {
             $currentCoverage = $this->extractCoverage($output);
-            $this->build->storeMeta((self::pluginName() . '-coverage'), $currentCoverage);
+            $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_COVERAGE, $currentCoverage);
 
             if ($covHtmlOk) {
                 $this->builder->logSuccess(
@@ -291,8 +292,8 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
                 $parser = new PhpUnitResultJunit($logFile, $this->build->getBuildPath());
             }
 
-            $this->build->storeMeta((self::pluginName() . '-data'), $parser->parse()->getResults());
-            $this->build->storeMeta((self::pluginName() . '-errors'), $parser->getFailures());
+            $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_DATA, $parser->parse()->getResults());
+            $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_ERRORS, $parser->getFailures());
 
             foreach ($parser->getErrors() as $error) {
                 $severity = $error['severity'] ==

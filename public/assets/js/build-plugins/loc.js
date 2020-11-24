@@ -9,7 +9,7 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('php_loc-data', -1, {num_builds: 10, key: 'php_loc-data'});
+        var query = ActiveBuild.registerQuery('php_loc-data', -1, {num_builds: 10, key: 'data', plugin: 'php_loc'});
 
         $(window).on('php_loc-data', function (data) {
             self.onUpdate(data);
@@ -78,10 +78,10 @@ var locPlugin = ActiveBuild.UiPlugin.extend({
 
         for (var i in builds) {
             self.chartData.labels.push(Lang.get('build') + ' ' + builds[i].build_id);
-            self.chartData.datasets[0].data.push(builds[i].meta_value.LOC);
-            self.chartData.datasets[1].data.push(builds[i].meta_value.LLOC);
-            self.chartData.datasets[2].data.push(builds[i].meta_value.CLOC);
-            self.chartData.datasets[3].data.push(builds[i].meta_value.NCLOC);
+            self.chartData.datasets[0].data.push(builds[i].value.LOC);
+            self.chartData.datasets[1].data.push(builds[i].value.LLOC);
+            self.chartData.datasets[2].data.push(builds[i].value.CLOC);
+            self.chartData.datasets[3].data.push(builds[i].value.NCLOC);
         }
 
         self.drawChart();

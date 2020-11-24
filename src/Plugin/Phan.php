@@ -6,6 +6,7 @@ use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 
 /**
@@ -82,7 +83,7 @@ class Phan extends Plugin
 
         $warningCount = $this->processReport(file_get_contents($this->location . '/phan.out'));
 
-        $this->build->storeMeta((self::pluginName() . '-warnings'), $warningCount);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_WARNINGS, $warningCount);
 
         $success = true;
 

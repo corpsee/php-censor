@@ -6,6 +6,7 @@ use Exception;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use RuntimeException;
 
@@ -99,7 +100,7 @@ class SensiolabsInsight extends Plugin
         $this->executeSensiolabsInsight($insightBinaryPath);
 
         $errorCount = $this->processReport(trim($this->builder->getLastOutput()));
-        $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_WARNINGS, $errorCount);
 
         return $this->wasLastExecSuccessful($errorCount);
     }

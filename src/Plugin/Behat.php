@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 
 /**
@@ -58,8 +59,8 @@ class Behat extends Plugin
 
         list($errorCount, $data) = $this->parseBehatOutput();
 
-        $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
-        $this->build->storeMeta((self::pluginName() . '-data'), $data);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_WARNINGS, $errorCount);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_DATA, $data);
 
         return $success;
     }

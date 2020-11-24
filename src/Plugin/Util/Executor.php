@@ -6,6 +6,7 @@ use Exception;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use PHPCensor\Store\BuildStore;
 use PHPCensor\Store\Factory as StoreFactory;
@@ -294,8 +295,8 @@ class Executor
     {
         /** @var Build $build */
         $build = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
-        $metas = $this->store->getMeta('plugin-summary', $build->getProjectId(), $build->getId());
-        return isset($metas[0]['meta_value']) ? $metas[0]['meta_value'] : [];
+        $metas = $this->store->getMeta(BuildMeta::KEY_SUMMARY, null, $build->getProjectId(), $build->getId());
+        return isset($metas[0]['value']) ? $metas[0]['value'] : [];
     }
 
     /**
@@ -307,6 +308,6 @@ class Executor
     {
         /** @var Build $build */
         $build = $this->pluginFactory->getResourceFor('PHPCensor\Model\Build');
-        $this->store->setMeta($build->getId(), 'plugin-summary', json_encode($summary));
+        $this->store->setMeta($build->getId(), null, BuildMeta::KEY_SUMMARY, \json_encode($summary));
     }
 }

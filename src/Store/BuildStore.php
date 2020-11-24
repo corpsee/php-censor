@@ -411,19 +411,20 @@ class BuildStore extends Store
      * Return build metadata by key, project and optionally build id.
      *
      * @param string       $key
-     * @param int      $projectId
-     * @param int|null $buildId
+     * @param string|null  $plugin
+     * @param int          $projectId
+     * @param int|null     $buildId
      * @param string|null  $branch
-     * @param int      $numResults
+     * @param int          $numResults
      *
      * @return array|null
      */
-    public function getMeta($key, $projectId, $buildId = null, $branch = null, $numResults = 1)
+    public function getMeta($key, $plugin, $projectId, $buildId = null, $branch = null, $numResults = 1)
     {
-        $query = 'SELECT bm.build_id, bm.meta_key, bm.meta_value
+        $query = 'SELECT bm.build_id, bm.key, bm.value
                     FROM {{build_metas}} AS {{bm}}
                     LEFT JOIN {{' . $this->tableName . '}} AS {{b}} ON b.id = bm.build_id
-                    WHERE bm.meta_key = :key AND b.project_id = :projectId';
+                    WHERE bm.key = :key AND bm.plugin = :plugin AND b.project_id = :projectId';
 
         // If we're getting comparative meta data, include previous builds
         // otherwise just include the specified build ID:
@@ -442,6 +443,7 @@ class BuildStore extends Store
 
         $stmt = Database::getConnection('read')->prepareCommon($query);
         $stmt->bindValue(':key', $key, PDO::PARAM_STR);
+        $stmt->bindValue(':plugin', $plugin);
         $stmt->bindValue(':projectId', (int)$projectId, PDO::PARAM_INT);
         $stmt->bindValue(':buildId', (int)$buildId, PDO::PARAM_INT);
         $stmt->bindValue(':numResults', (int)$numResults, PDO::PARAM_INT);
@@ -457,14 +459,14 @@ class BuildStore extends Store
             $errorStore = Factory::getStore('BuildError');
 
             $rtn = array_reverse($rtn);
-            $rtn = array_map(function ($item) use ($key, $errorStore, $buildId) {
-                $item['meta_value'] = json_decode($item['meta_value'], true);
-                if ('plugin-summary' === $key) {
-                    foreach ($item['meta_value'] as $stage => $stageData) {
-                        foreach ($stageData as $plugin => $pluginData) {
-                            $item['meta_value'][$stage][$plugin]['errors'] = $errorStore->getErrorTotalForBuild(
+            $rtn = array_map(function ($item) use ($key, $plugin, $errorStore, $buildId) {
+                $item['value'] = json_decode($item['value'], true);
+                if (BuildMeta::KEY_SUMMARY === $key && null === $plugin) {
+                    foreach ($item['value'] as $stage => $stageData) {
+                        foreach ($stageData as $pluginDatum => $pluginData) {
+                            $item['value'][$stage][$pluginDatum]['errors'] = $errorStore->getErrorTotalForBuild(
                                 $buildId,
-                                $plugin
+                                $pluginDatum
                             );
                         }
                     }
@@ -486,21 +488,22 @@ class BuildStore extends Store
     /**
      * Set a metadata value for a given project and build ID.
      *
-     * @param int $buildId
-     * @param string  $key
-     * @param string  $value
+     * @param int         $buildId
+     * @param string      $key
+     * @param string|null $plugin
+     * @param string      $value
      */
-    public function setMeta($buildId, $key, $value)
+    public function setMeta($buildId, $plugin, $key, $value)
     {
         /** @var BuildMetaStore $store */
         $store = Factory::getStore('BuildMeta');
-        $meta  = $store->getByKey($buildId, $key);
+        $meta  = $store->getByPluginAndKey($buildId, $plugin, $key);
         if (is_null($meta)) {
             $meta = new BuildMeta();
             $meta->setBuildId($buildId);
-            $meta->setMetaKey($key);
+            $meta->setKey($key);
         }
-        $meta->setMetaValue($value);
+        $meta->setValue($value);
 
         $store->save($meta);
     }

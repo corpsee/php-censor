@@ -7,6 +7,7 @@ use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 
@@ -173,8 +174,8 @@ class PhpCodeSniffer extends Plugin implements ZeroConfigPluginInterface
         $this->builder->logExecOutput(true);
 
         $success = true;
-        $this->build->storeMeta((self::pluginName() . '-warnings'), $warnings);
-        $this->build->storeMeta((self::pluginName() . '-errors'), $errors);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_WARNINGS, $warnings);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_ERRORS, $errors);
 
         if (-1 != $this->allowedWarnings && $warnings > $this->allowedWarnings) {
             $success = false;

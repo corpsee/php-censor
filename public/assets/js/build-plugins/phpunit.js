@@ -15,7 +15,7 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self = this;
-        var query = ActiveBuild.registerQuery('php_unit-data', -1, {key: 'php_unit-data'});
+        var query = ActiveBuild.registerQuery('php_unit-data', -1, {key: 'data', plugin: 'php_unit'});
 
         $(window).on('php_unit-data', function (data) {
             self.onUpdate(data);
@@ -49,7 +49,7 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
         this.rendered = true;
         this.lastData = e.queryData;
 
-        var tests = this.lastData[0].meta_value;
+        var tests = this.lastData[0].value;
         var thead = $('#php_unit-data thead tr');
         var tbody = $('#php_unit-data tbody');
 

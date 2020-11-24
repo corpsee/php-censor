@@ -9,7 +9,7 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('php_unit-coverage', -1, {num_builds: 10, key: 'php_unit-coverage'});
+        var query = ActiveBuild.registerQuery('php_unit-coverage', -1, {num_builds: 10, key: 'coverage', plugin: 'php_unit'});
 
         $(window).on('php_unit-coverage', function (data) {
             self.onUpdate(data);
@@ -72,9 +72,9 @@ var coveragePlugin = ActiveBuild.UiPlugin.extend({
 
         for (var i in builds) {
             self.chartData.labels.push(Lang.get('build') + ' ' + builds[i].build_id);
-            self.chartData.datasets[0].data.push(builds[i].meta_value.classes);
-            self.chartData.datasets[1].data.push(builds[i].meta_value.methods);
-            self.chartData.datasets[2].data.push(builds[i].meta_value.lines);
+            self.chartData.datasets[0].data.push(builds[i].value.classes);
+            self.chartData.datasets[1].data.push(builds[i].value.methods);
+            self.chartData.datasets[2].data.push(builds[i].value.lines);
         }
 
         self.drawChart();

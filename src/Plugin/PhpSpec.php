@@ -4,6 +4,7 @@ namespace PHPCensor\Plugin;
 
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use SimpleXMLElement;
 
@@ -114,7 +115,7 @@ class PhpSpec extends Plugin
             $data['suites'][] = $suite;
         }
 
-        $this->build->storeMeta((self::pluginName() . '-data'), $data);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_DATA, $data);
 
         return $success;
     }

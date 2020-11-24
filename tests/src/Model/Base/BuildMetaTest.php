@@ -15,10 +15,11 @@ class BuildMetaTest extends TestCase
         self::assertInstanceOf('PHPCensor\Model\Base\BuildMeta', $buildMeta);
 
         self::assertEquals([
-            'id'         => null,
-            'build_id'   => null,
-            'meta_key'   => null,
-            'meta_value' => null,
+            'id'       => null,
+            'build_id' => null,
+            'key'      => null,
+            'value'    => null,
+            'plugin'   => null,
         ], $buildMeta->getDataArray());
     }
 
@@ -46,27 +47,27 @@ class BuildMetaTest extends TestCase
         self::assertEquals(false, $result);
     }
 
-    public function testMetaKey()
+    public function testKey()
     {
         $buildMeta = new BuildMeta();
 
-        $result = $buildMeta->setMetaKey('key');
+        $result = $buildMeta->setKey('key');
         self::assertEquals(true, $result);
-        self::assertEquals('key', $buildMeta->getMetaKey());
+        self::assertEquals('key', $buildMeta->getKey());
 
-        $result = $buildMeta->setMetaKey('key');
+        $result = $buildMeta->setKey('key');
         self::assertEquals(false, $result);
     }
 
-    public function testMetaValue()
+    public function testValue()
     {
         $buildMeta = new BuildMeta();
 
-        $result = $buildMeta->setMetaValue('value');
+        $result = $buildMeta->setValue('value');
         self::assertEquals(true, $result);
-        self::assertEquals('value', $buildMeta->getMetaValue());
+        self::assertEquals('value', $buildMeta->getValue());
 
-        $result = $buildMeta->setMetaValue('value');
+        $result = $buildMeta->setValue('value');
         self::assertEquals(false, $result);
     }
 }

@@ -415,12 +415,14 @@ class BuildController extends WebController
     public function ajaxMeta($buildId)
     {
         $build     = BuildFactory::getBuildById($buildId);
+
         $key       = $this->getParam('key', null);
+        $plugin    = $this->getParam('plugin', null);
         $numBuilds = $this->getParam('num_builds', 1);
         $data      = null;
 
         if ($key && $build) {
-            $data = $this->buildStore->getMeta($key, $build->getProjectId(), $buildId, $build->getBranch(), $numBuilds);
+            $data = $this->buildStore->getMeta($key, $plugin, $build->getProjectId(), $buildId, $build->getBranch(), $numBuilds);
         }
 
         $response = new JsonResponse();

@@ -19,9 +19,9 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('plugin-summary', 5, {key: 'plugin-summary'});
+        var query = ActiveBuild.registerQuery('build-summary', 5, {key: 'summary'});
 
-        $(window).on('plugin-summary', function (data) {
+        $(window).on('build-summary', function (data) {
             self.onUpdate(data);
         });
 
@@ -32,7 +32,7 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
 
     render: function () {
         return $(
-            '<table class="table table-hover" id="plugin-summary">' +
+            '<table class="table table-hover" id="build-summary">' +
             '<thead><tr>' +
             '<th>' + Lang.get('stage') + '</th>' +
             '<th>' + Lang.get('plugin') + '</th>' +
@@ -48,8 +48,8 @@ var SummaryPlugin = ActiveBuild.UiPlugin.extend({
             return;
         }
 
-        var tbody = $('#plugin-summary tbody'),
-            summary = e.queryData[0].meta_value;
+        var tbody = $('#build-summary tbody'),
+            summary = e.queryData[0].value;
 
         tbody.empty();
 

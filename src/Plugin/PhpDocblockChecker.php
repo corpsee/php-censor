@@ -6,6 +6,7 @@ use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 
@@ -131,7 +132,7 @@ class PhpDocblockChecker extends Plugin implements ZeroConfigPluginInterface
 
             $this->reportErrors($output);
         }
-        $this->build->storeMeta((self::pluginName() . '-warnings'), $errors);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_WARNINGS, $errors);
 
         $success = true;
 

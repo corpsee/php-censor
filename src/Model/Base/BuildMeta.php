@@ -7,14 +7,22 @@ use PHPCensor\Model;
 
 class BuildMeta extends Model
 {
+    const KEY_DATA     = 'data';
+    const KEY_META     = 'meta';
+    const KEY_ERRORS   = 'errors';
+    const KEY_WARNINGS = 'warnings';
+    const KEY_COVERAGE = 'coverage';
+    const KEY_SUMMARY  = 'summary';
+
     /**
      * @var array
      */
     protected $data = [
-        'id'         => null,
-        'build_id'   => null,
-        'meta_key'   => null,
-        'meta_value' => null,
+        'id'       => null,
+        'build_id' => null,
+        'key'      => null,
+        'value'    => null,
+        'plugin'   => null,
     ];
 
     /**
@@ -78,9 +86,9 @@ class BuildMeta extends Model
     /**
      * @return string
      */
-    public function getMetaKey()
+    public function getKey()
     {
-        return $this->data['meta_key'];
+        return $this->data['key'];
     }
 
     /**
@@ -90,26 +98,26 @@ class BuildMeta extends Model
      *
      * @throws InvalidArgumentException
      */
-    public function setMetaKey($value)
+    public function setKey($value)
     {
-        $this->validateNotNull('meta_key', $value);
-        $this->validateString('meta_key', $value);
+        $this->validateNotNull('key', $value);
+        $this->validateString('key', $value);
 
-        if ($this->data['meta_key'] === $value) {
+        if ($this->data['key'] === $value) {
             return false;
         }
 
-        $this->data['meta_key'] = $value;
+        $this->data['key'] = $value;
 
-        return $this->setModified('meta_key');
+        return $this->setModified('key');
     }
 
     /**
      * @return string
      */
-    public function getMetaValue()
+    public function getValue()
     {
-        return $this->data['meta_value'];
+        return $this->data['value'];
     }
 
     /**
@@ -119,17 +127,45 @@ class BuildMeta extends Model
      *
      * @throws InvalidArgumentException
      */
-    public function setMetaValue($value)
+    public function setValue($value)
     {
-        $this->validateNotNull('meta_value', $value);
-        $this->validateString('meta_value', $value);
+        $this->validateNotNull('value', $value);
+        $this->validateString('value', $value);
 
-        if ($this->data['meta_value'] === $value) {
+        if ($this->data['value'] === $value) {
             return false;
         }
 
-        $this->data['meta_value'] = $value;
+        $this->data['value'] = $value;
 
-        return $this->setModified('meta_value');
+        return $this->setModified('value');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPlugin()
+    {
+        return $this->data['plugin'];
+    }
+
+    /**
+     * @param string|null $plugin
+     *
+     * @return bool
+     *
+     * @throws InvalidArgumentException
+     */
+    public function setPlugin($plugin)
+    {
+        $this->validateString('plugin', $plugin);
+
+        if ($this->data['plugin'] === $plugin) {
+            return false;
+        }
+
+        $this->data['plugin'] = $plugin;
+
+        return $this->setModified('plugin');
     }
 }

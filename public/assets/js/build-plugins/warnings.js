@@ -30,7 +30,8 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
 
         var queries = [];
         for (var key in self.keys) {
-            queries.push(ActiveBuild.registerQuery(key, -1, {num_builds: 10, key: key}));
+            var parts = key.split('-');
+            queries.push(ActiveBuild.registerQuery(key, -1, {num_builds: 10, key: parts[0], plugin: parts[1]}));
         }
 
         $(window).on(Object.keys(self.keys).join(' '), function (data) {
@@ -70,15 +71,16 @@ var warningsPlugin = ActiveBuild.UiPlugin.extend({
         }
 
         for (var i in builds) {
-            var buildId = builds[i]['build_id'];
-            var metaKey = builds[i]['meta_key'];
-            var metaVal = builds[i]['meta_value'];
+            var buildId    = builds[i]['build_id'];
+            var metaKey    = builds[i]['key'];
+            var metaVal    = builds[i]['value'];
+            var metaPlugin = builds[i]['plugin'];
 
             if (!self.data[buildId]) {
                 self.data[buildId] = {};
             }
 
-            self.data[buildId][metaKey] = metaVal;
+            self.data[buildId][(metaKey + '-' + metaPlugin)] = metaVal;
         }
 
         if (self.displayOnUpdate) {
