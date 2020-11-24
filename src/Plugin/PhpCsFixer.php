@@ -6,6 +6,7 @@ use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use SebastianBergmann\Diff\Diff;
 use SebastianBergmann\Diff\Line;
@@ -147,7 +148,7 @@ class PhpCsFixer extends Plugin
         if ($this->errors) {
             $warningCount = $this->processReport($output);
 
-            $this->build->storeMeta((self::pluginName() . '-warnings'), $warningCount);
+            $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_WARNINGS, $warningCount);
 
             if (-1 != $this->allowedWarnings && $warningCount > $this->allowedWarnings) {
                 $success = false;

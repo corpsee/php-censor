@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 
@@ -71,7 +72,7 @@ class PhpLoc extends Plugin implements ZeroConfigPluginInterface
                 $data[$v] = (int)$matches[2][$k];
             }
 
-            $this->build->storeMeta((self::pluginName() . '-data'), $data);
+            $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_DATA, $data);
         }
 
         return $success;

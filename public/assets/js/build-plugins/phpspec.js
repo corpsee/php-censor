@@ -8,7 +8,7 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('php_spec-data', -1, {key: 'php_spec-data'});
+        var query = ActiveBuild.registerQuery('php_spec-data', -1, {key: 'data', plugin: 'php_spec'});
 
         $(window).on('php_spec-data', function (data) {
             self.onUpdate(data);
@@ -46,7 +46,7 @@ var phpspecPlugin = ActiveBuild.UiPlugin.extend({
         this.rendered = true;
         this.lastData = e.queryData;
 
-        var tests = this.lastData[0].meta_value;
+        var tests = this.lastData[0].value;
         var tbody = $('#php_spec-data tbody');
 
         tbody.empty();

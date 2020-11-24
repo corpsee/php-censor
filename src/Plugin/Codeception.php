@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
 use PHPCensor\ZeroConfigPluginInterface;
@@ -188,9 +189,9 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         // through tests
         $success = $success && (intval($meta['failures']) < 1);
 
-        $this->build->storeMeta((self::pluginName() . '-meta'), $meta);
-        $this->build->storeMeta((self::pluginName() . '-data'), $output);
-        $this->build->storeMeta((self::pluginName() . '-errors'), $parser->getTotalFailures());
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_META, $meta);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_DATA, $output);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_ERRORS, $parser->getTotalFailures());
 
         return $success;
     }

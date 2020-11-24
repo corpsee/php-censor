@@ -97,8 +97,8 @@ class BuildStatusController extends WebController
                     $build->getBranch()
                 );
 
-                if ($coverageMeta && isset($coverageMeta[0]['meta_value'][$type])) {
-                    $coverage = $coverageMeta[0]['meta_value'][$type];
+                if ($coverageMeta && isset($coverageMeta[0]['value'][$type])) {
+                    $coverage = $coverageMeta[0]['value'][$type];
                 }
             }
         } catch (Exception $e) {

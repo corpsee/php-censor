@@ -5,6 +5,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 use RecursiveDirectoryIterator;
@@ -156,7 +157,7 @@ class TechnicalDebt extends Plugin implements ZeroConfigPluginInterface
 
         $this->builder->log($this->returnResult() . "Found $errorCount instances of " . implode(', ', $this->searches));
 
-        $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_WARNINGS, $errorCount);
 
         if ($this->allowedErrors !== -1 && $errorCount > $this->allowedErrors) {
             $success = false;

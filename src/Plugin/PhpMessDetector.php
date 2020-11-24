@@ -6,6 +6,7 @@ use Exception;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 
@@ -89,7 +90,7 @@ class PhpMessDetector extends Plugin implements ZeroConfigPluginInterface
         $this->executePhpMd($phpmdBinaryPath);
 
         $errorCount = $this->processReport(trim($this->builder->getLastOutput()));
-        $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_WARNINGS, $errorCount);
 
         return $this->wasLastExecSuccessful($errorCount);
     }

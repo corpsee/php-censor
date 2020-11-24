@@ -6,6 +6,7 @@ use Exception;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
 use PHPCensor\Model\BuildError;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 use PHPCensor\ZeroConfigPluginInterface;
 
@@ -78,7 +79,7 @@ class PhpCpd extends Plugin implements ZeroConfigPluginInterface
 
         $errorCount = $this->processReport(file_get_contents($tmpFileName));
 
-        $this->build->storeMeta((self::pluginName() . '-warnings'), $errorCount);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_WARNINGS, $errorCount);
 
         unlink($tmpFileName);
 

@@ -6,6 +6,7 @@ use DirectoryIterator;
 use PHPCensor;
 use PHPCensor\Builder;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildMeta;
 use PHPCensor\Plugin;
 
 /**
@@ -80,9 +81,9 @@ class PhpTalLint extends Plugin
             }
         }
 
-        $this->build->storeMeta((self::pluginName() . '-warnings'), $warnings);
-        $this->build->storeMeta((self::pluginName() . '-errors'), $errors);
-        $this->build->storeMeta((self::pluginName() . '-data'), $this->failedPaths);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_WARNINGS, $warnings);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_ERRORS, $errors);
+        $this->build->storeMeta(self::pluginName(), BuildMeta::KEY_DATA, $this->failedPaths);
 
         $success = true;
 

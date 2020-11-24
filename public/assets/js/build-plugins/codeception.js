@@ -9,8 +9,8 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self            = this;
-        var query_data      = ActiveBuild.registerQuery('codeception-data', -1, {key: 'codeception-data'});
-        var query_meta_data = ActiveBuild.registerQuery('codeception-meta', -1, {key: 'codeception-meta'});
+        var query_data      = ActiveBuild.registerQuery('codeception-data', -1, {key: 'data', plugin: 'codeception'});
+        var query_meta_data = ActiveBuild.registerQuery('codeception-meta', -1, {key: 'meta', plugin: 'codeception'});
 
         $(window).on('codeception-data', function (data) {
             self.onUpdateData(data);
@@ -51,7 +51,7 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
         this.rendered = true;
         this.lastData = e.queryData;
 
-        var tests = this.lastData[0].meta_value;
+        var tests = this.lastData[0].value;
         var tbody = $('#codeception-data tbody');
 
         tbody.empty();
@@ -87,7 +87,7 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
 
         this.lastMeta = e.queryData;
 
-        var data  = this.lastMeta[0].meta_value;
+        var data  = this.lastMeta[0].value;
         var tfoot = $('#codeception-data tfoot');
 
         tfoot.empty();

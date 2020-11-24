@@ -7,7 +7,7 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
 
     register: function () {
         var self  = this;
-        var query = ActiveBuild.registerQuery('php_tal_lint-data', -1, {key: 'php_tal_lint-data'});
+        var query = ActiveBuild.registerQuery('php_tal_lint-data', -1, {key: 'data', plugin: 'php_tal_lint'});
 
         $(window).on('php_tal_lint-data', function (data) {
             self.onUpdate(data);
@@ -40,7 +40,7 @@ var phptalPlugin = ActiveBuild.UiPlugin.extend({
         this.rendered = true;
         this.lastData = e.queryData;
 
-        var errors = this.lastData[0].meta_value;
+        var errors = this.lastData[0].value;
         var tbody  = $('#php_tal_lint-data tbody');
 
         tbody.empty();
