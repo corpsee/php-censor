@@ -21,9 +21,9 @@ class Model
      */
     public function __construct($initialData = [])
     {
-        if (is_array($initialData)) {
+        if (\is_array($initialData)) {
             foreach ($initialData as $index => $item) {
-                if (array_key_exists($index, $this->data)) {
+                if (\array_key_exists($index, $this->data)) {
                     $this->data[$index] = $item;
                 }
             }
@@ -66,7 +66,7 @@ class Model
      */
     protected function validateString($name, $value)
     {
-        if (!is_string($value) && !is_null($value)) {
+        if (!\is_string($value) && !\is_null($value)) {
             throw new InvalidArgumentException('Column "' . $name . '" must be a string.');
         }
     }
@@ -79,7 +79,7 @@ class Model
      */
     protected function validateInt($name, $value)
     {
-        if (!is_int($value) && !is_null($value)) {
+        if (!\is_int($value) && !\is_null($value)) {
             throw new InvalidArgumentException('Column "' . $name . '" must be an int.');
         }
     }
@@ -92,7 +92,7 @@ class Model
      */
     protected function validateBoolean($name, $value)
     {
-        if (!is_bool($value) && !is_null($value)) {
+        if (!\is_bool($value) && !\is_null($value)) {
             throw new InvalidArgumentException('Column "' . $name . '" must be a bool.');
         }
     }
@@ -105,7 +105,7 @@ class Model
      */
     protected function validateNotNull($name, $value)
     {
-        if (is_null($value)) {
+        if (\is_null($value)) {
             throw new InvalidArgumentException('Column "' . $name . '" must not be null.');
         }
     }

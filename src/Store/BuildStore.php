@@ -36,7 +36,7 @@ class BuildStore extends Store
      * @param int $key
      * @param string  $useConnection
      *
-     * @return null|Build
+     * @return Build|null
      */
     public function getByPrimaryKey($key, $useConnection = 'read')
     {
@@ -55,7 +55,7 @@ class BuildStore extends Store
      */
     public function getById($id, $useConnection = 'read')
     {
-        if (is_null($id)) {
+        if (\is_null($id)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
