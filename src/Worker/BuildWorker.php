@@ -81,7 +81,7 @@ class BuildWorker
         $this->buildService = $buildService;
 
         $this->queueTube  = $queueTube;
-        $this->pheanstalk = new Pheanstalk($queueHost, $queuePort);
+        //$this->pheanstalk = new Pheanstalk($queueHost, $queuePort);
 
         $this->lastPeriodical    = 0;
         $this->canPeriodicalWork = $canPeriodicalWork;
@@ -101,12 +101,29 @@ class BuildWorker
 
     protected function runWorker()
     {
-        $this->pheanstalk->watchOnly($this->queueTube);
+        //$this->pheanstalk->watchOnly($this->queueTube);
 
         $buildStore = Factory::getStore('Build');
 
+        // PHP 7.1 allows async signals
+        if (\function_exists('pcntl_async_signals')) {
+            \pcntl_async_signals(true);
+        } else {
+            declare (ticks = 1);
+        }
+
+        \pcntl_signal(SIGTERM, function ($signal) {
+            $this->canRun = false;
+        });
+
+        $i = 0;
         while ($this->canRun) {
-            if ($this->canPeriodicalWork &&
+            echo ++$i . "\n"; sleep(1);
+            echo "\t" . $i . "\n"; sleep(1);
+            echo "\t\t" . $i . "\n"; sleep(1);
+            echo "\t\t\t" . $i . "\n"; sleep(1);
+            echo "\t\t\t\t" . $i . "\n";
+/*            if ($this->canPeriodicalWork &&
                 $this->canRunPeriodicalWork()) {
                 $this->buildService->createPeriodicalBuilds($this->logger);
             }
@@ -199,7 +216,7 @@ class BuildWorker
             // destructor implicitly call flush
             unset($buildDbLog);
 
-            $this->deleteJob($job);
+            $this->deleteJob($job);*/
         }
     }
 

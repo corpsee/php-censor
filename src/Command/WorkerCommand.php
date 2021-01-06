@@ -75,12 +75,12 @@ class WorkerCommand extends LoggingCommand
     {
         parent::execute($input, $output);
 
-        $config = Config::getInstance()->get('php-censor.queue', []);
+/*        $config = Config::getInstance()->get('php-censor.queue', []);
         if (empty($config['host']) || empty($config['name'])) {
             throw new RuntimeException(
                 'The worker is not configured. You must set a host and queue in your config.yml file.'
             );
-        }
+        }*/
         $value = $input->getOption('stop-worker');
         if (false !== $value) {
             if ('soon' === $value || null === $value) {
@@ -99,6 +99,10 @@ class WorkerCommand extends LoggingCommand
             return;
         }
 
+        $config = [
+            'host' => '',
+            'name' => '',
+        ];
         (new BuildWorker(
             $this->logger,
             $this->buildService,
