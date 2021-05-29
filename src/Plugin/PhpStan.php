@@ -37,13 +37,6 @@ class PhpStan extends Plugin
 
         if (!empty($options['directories']) && is_array($options['directories'])) {
             $this->directories = $options['directories'];
-        } elseif (!empty($options['directory']) && is_string($options['directory'])) {
-            /** @deprecated Option "directory" is deprecated. Use the option "directories" instead. */
-            $this->directories = explode(' ', $options['directory']);
-
-            $this->builder->logWarning(
-                '[DEPRECATED] Option "directory" is deprecated. Use the option "directories" instead.'
-            );
         }
 
         if (isset($options['allowed_errors']) && is_int($options['allowed_errors'])) {
