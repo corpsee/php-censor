@@ -55,7 +55,7 @@
         "ext-curl":      "*",
         "ext-bcmath":    "*",
 
-        "php-censor/common": "^1.0",
+        "php-censor/common": "dev-master",
 
         "swiftmailer/swiftmailer":         "^6.2",
         "symfony/yaml":                    "^4.4",

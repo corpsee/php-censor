@@ -8,6 +8,7 @@ use DateTime;
 use Exception;
 use PHPCensor\Common\Exception\InvalidArgumentException;
 use PHPCensor\Model;
+use Symfony\Component\Yaml\Parser as YamlParser;
 
 class Project extends Model
 {
@@ -65,10 +66,7 @@ class Project extends Model
         self::TYPE_BITBUCKET_SERVER
     ];
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return (int)$this->data['id'];
     }
@@ -89,10 +87,7 @@ class Project extends Model
         return $this->setModified('id');
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->data['title'];
     }
@@ -300,12 +295,17 @@ class Project extends Model
         return $this->setModified('access_information');
     }
 
-    /**
-     * @return string
-     */
-    public function getBuildConfig()
+    public function getBuildConfig(): array
     {
-        return $this->data['build_config'];
+        $rawConfig = $this->data['build_config'];
+
+        if (!$rawConfig) {
+            return [];
+        }
+
+        $yamlParser = new YamlParser();
+
+        return (array)$yamlParser->parse($rawConfig);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace PHPCensor\Model;
 
+use PHPCensor\Common\Project\ProjectInterface;
 use PHPCensor\Model\Base\Project as BaseProject;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\Store\ProjectGroupStore;
@@ -11,8 +12,13 @@ use Symfony\Component\Yaml\Parser as YamlParser;
 /**
  * @author Dan Cryer <dan@block8.co.uk>
  */
-class Project extends BaseProject
+class Project extends BaseProject implements ProjectInterface
 {
+    public function getLink(): string
+    {
+        return APP_URL . 'project/view/' . $this->getId();
+    }
+
     /**
      * @return ProjectGroup|null
      */
@@ -273,22 +279,18 @@ class Project extends BaseProject
     public function getBuildPriority()
     {
         $config = $this->getBuildConfig();
-
         if (!$config) {
             return self::DEFAULT_BUILD_PRIORITY;
         }
 
-        $yamlParser = new YamlParser();
-        $parsed     = $yamlParser->parse($config);
-
         if (
-            !isset($parsed['build_settings']['build_priority']) ||
-            !(int)$parsed['build_settings']['build_priority']
+            !isset($config['build_settings']['build_priority']) ||
+            !(int)$config['build_settings']['build_priority']
         ) {
             return self::DEFAULT_BUILD_PRIORITY;
         }
 
-        $priority = (int)$parsed['build_settings']['build_priority'];
+        $priority = (int)$config['build_settings']['build_priority'];
 
         if ($priority > self::MAX_BUILD_PRIORITY) {
             return self::MAX_BUILD_PRIORITY;

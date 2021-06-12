@@ -7,9 +7,6 @@ use PHPCensor\Model\Build as BaseBuild;
 use PHPCensor\Store\EnvironmentStore;
 use PHPCensor\StoreRegistry;
 
-/**
- * The BuildInterpolator class replaces variables in a string with build-specific information.
- */
 class BuildInterpolator
 {
     /**

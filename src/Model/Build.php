@@ -68,6 +68,11 @@ class Build extends BaseBuild
      */
     protected $buildBranchDirectory;
 
+    public function getLink(): string
+    {
+        return APP_URL . 'build/view/' . $this->getId();
+    }
+
     /**
      * @return null|Project
      *
@@ -236,14 +241,8 @@ class Build extends BaseBuild
         $buildConfig = $this->getProject()->getBuildConfig();
 
         if ($buildConfig) {
-            $yamlParser  = new YamlParser();
-            $buildConfig = $yamlParser->parse($buildConfig);
-
-            if ($buildConfig && is_array($buildConfig)) {
-                $builder->logDebug('Config before repository clone (DB): ' . json_encode($buildConfig));
-
-                $builder->setConfig($buildConfig);
-            }
+            $builder->logDebug('Config before repository clone (DB): ' . \json_encode($buildConfig));
+            $builder->setConfig($buildConfig);
         }
 
         return true;

@@ -172,7 +172,7 @@ class ProjectTest extends TestCase
 
         $result = $project->setBuildConfig('config');
         self::assertEquals(true, $result);
-        self::assertEquals('config', $project->getBuildConfig());
+        self::assertEquals(['config'], $project->getBuildConfig());
 
         $result = $project->setBuildConfig('config');
         self::assertEquals(false, $result);

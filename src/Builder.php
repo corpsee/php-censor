@@ -6,7 +6,6 @@ use DateTime;
 use Exception;
 use PHPCensor\Common\Exception\RuntimeException;
 use PHPCensor\Helper\BuildInterpolator;
-use PHPCensor\Helper\MailerFactory;
 use PHPCensor\Logging\BuildLogger;
 use PHPCensor\Model\Build;
 use PHPCensor\Plugin\Util\Executor;
@@ -71,10 +70,7 @@ class Builder
      */
     protected $config = [];
 
-    /**
-     * @var BuildInterpolator
-     */
-    protected $interpolator;
+    protected BuildInterpolator $interpolator;
 
     /**
      * @var BuildStore

@@ -284,7 +284,7 @@ class ProjectServiceTest extends TestCase
 
         self::assertEquals('private', $returnValue->getSshPrivateKey());
         self::assertEquals('public', $returnValue->getSshPublicKey());
-        self::assertEquals('config', $returnValue->getBuildConfig());
+        self::assertEquals(['config'], $returnValue->getBuildConfig());
         self::assertEquals('testbranch', $returnValue->getDefaultBranch());
         self::assertEquals(true, $returnValue->getAllowPublicStatus());
     }
